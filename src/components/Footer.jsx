@@ -2,6 +2,8 @@ import { site } from "../data/site";
 
 export default function Footer() {
   const { brand, footer } = site;
+  const onHome = window.location.pathname === "/";
+  const resolveLink = (href) => (href.startsWith("#") && !onHome ? `/${href}` : href);
 
   return (
     <footer className="border-t border-slate-200 bg-slate-50">
@@ -22,7 +24,7 @@ export default function Footer() {
               <ul className="mt-3 space-y-2.5">
                 {col.links.map((l) => (
                   <li key={l.label}>
-                    <a href={l.href} className="text-sm text-slate-500 transition hover:text-brand-700">{l.label}</a>
+                    <a href={resolveLink(l.href)} className="text-sm text-slate-500 transition hover:text-brand-700">{l.label}</a>
                   </li>
                 ))}
               </ul>
@@ -30,9 +32,13 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-slate-200 pt-6 sm:flex-row">
+        <div className="mt-12 flex flex-col gap-4 border-t border-slate-200 pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-slate-400">© {new Date().getFullYear()} {brand.name}. All rights reserved.</p>
-          <p className="text-xs text-slate-400">Built for growing teams that need clearer operational control.</p>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium text-slate-500">
+            <a href="/privacy" className="transition hover:text-brand-700">Privacy Policy</a>
+            <a href="/terms" className="transition hover:text-brand-700">Terms & Conditions</a>
+            <a href="/contact" className="transition hover:text-brand-700">Contact Us</a>
+          </div>
         </div>
       </div>
     </footer>

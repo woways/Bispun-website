@@ -5,11 +5,13 @@ import Icon from "./Icon";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { brand, nav, actions } = site;
+  const onHome = window.location.pathname === "/";
+  const homeLink = (href) => (onHome ? href : `/${href}`);
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/90 backdrop-blur-xl">
       <nav className="container-x flex h-16 items-center justify-between gap-6">
-        <a href="#top" className="flex shrink-0 items-center gap-2.5">
+        <a href="/" className="flex shrink-0 items-center gap-2.5">
           <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 text-sm font-extrabold text-white shadow-sm shadow-brand-600/20">
             BI
           </span>
@@ -22,7 +24,7 @@ export default function Navbar() {
           {nav.map((n) => (
             <a
               key={n.href}
-              href={n.href}
+              href={homeLink(n.href)}
               className="text-[13px] font-semibold text-slate-600 transition hover:text-brand-700"
             >
               {n.label}
@@ -38,7 +40,7 @@ export default function Navbar() {
             {actions.signup.label}
           </a>
           <a
-            href={actions.demo.href}
+            href={homeLink(actions.demo.href)}
             className="inline-flex h-9 items-center justify-center gap-1.5 rounded-xl bg-brand-600 px-4 text-[13px] font-semibold text-white shadow-sm shadow-brand-600/20 transition hover:bg-brand-700"
           >
             {actions.demo.label}
@@ -62,7 +64,7 @@ export default function Navbar() {
             {nav.map((n) => (
               <a
                 key={n.href}
-                href={n.href}
+                href={homeLink(n.href)}
                 onClick={() => setOpen(false)}
                 className="rounded-lg px-2 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
               >
@@ -78,7 +80,7 @@ export default function Navbar() {
                 {actions.signup.label}
               </a>
               <a
-                href={actions.demo.href}
+                href={homeLink(actions.demo.href)}
                 onClick={() => setOpen(false)}
                 className="inline-flex items-center justify-center rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white"
               >

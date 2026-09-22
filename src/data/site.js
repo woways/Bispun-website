@@ -2,13 +2,13 @@ export const site = {
   brand: {
     name: "Bispun",
     tagline: "Business Control CRM",
-    appUrl: "https://www.bispun.com/login",
+    appUrl: "https://consulbuzz.vercel.app/",
     email: "hello@bispun.com",
     phone: "+91 00000 00000",
   },
 
   actions: {
-    signup: { label: "Sign Up", href: "#signup" },
+    signup: { label: "Sign Up", href: "https://consulbuzz.vercel.app/" },
     demo: { label: "Book a Demo", href: "#demo" },
   },
 
@@ -59,6 +59,18 @@ export const site = {
       problem: "Management waits for manual reports",
       text: "Owners often depend on someone else to prepare spreadsheets before they can understand performance.",
       outcome: "Use live KPIs, trends and year comparisons to make decisions faster.",
+    },
+    {
+      icon: "ShieldCheck",
+      problem: "Employee access becomes difficult to control",
+      text: "Giving every employee the same access creates security risks, unclear responsibility and operational confusion.",
+      outcome: "Give each role the access it needs while sensitive business controls stay with management.",
+    },
+    {
+      icon: "Building2",
+      problem: "Growth makes operations harder to manage",
+      text: "As teams, departments and workflows grow, disconnected processes become harder to control consistently.",
+      outcome: "Keep roles, workflows and business structure organized as the company grows.",
     },
   ],
 
@@ -326,7 +338,7 @@ export const site = {
         title: "Contact",
         links: [
           { label: "Email us", href: "mailto:hello@bispun.com" },
-          { label: "Sign Up", href: "#signup" },
+          { label: "Sign Up", href: "https://consulbuzz.vercel.app/" },
         ],
       },
     ],

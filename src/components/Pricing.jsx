@@ -44,7 +44,7 @@ export default function Pricing() {
               </ul>
 
               <a
-                href={`#signup-${p.name.toLowerCase()}`}
+                href={site.actions.signup.href}
                 className={`mt-7 inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold transition ${
                   p.highlighted
                     ? "bg-brand-600 text-white hover:bg-brand-500"
