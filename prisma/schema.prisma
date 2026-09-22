@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("WEBSITE_DATABASE_URL")
+}
+
+model WebsiteSignupRequest {
+  id              String   @id @default(cuid())
+  fullName        String
+  workEmail       String
+  phone           String
+  companyName     String
+  role            String
+  businessType    String
+  teamSize        String
+  monthlyLeads    String
+  needs           Json
+  recommendedPlan String
+  selectedPlan    String
+  status          String   @default("NEW")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([workEmail])
+  @@index([createdAt])
+  @@index([status])
+}
+
+model DemoRequest {
+  id            String   @id @default(cuid())
+  fullName      String
+  companyName   String
+  workEmail     String
+  phone         String
+  teamSize      String
+  preferredDate DateTime
+  preferredTime String
+  note          String?
+  status        String   @default("NEW")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([workEmail])
+  @@index([preferredDate])
+  @@index([createdAt])
+  @@index([status])
+}
