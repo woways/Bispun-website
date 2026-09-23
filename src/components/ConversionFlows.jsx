@@ -79,25 +79,67 @@ function ModalShell({ title, eyebrow, step, totalSteps, onClose, children }) {
                   Tell us how to reach you, choose a preferred time, then review the request before sending it.
                 </p>
 
-                <div className="mt-10 space-y-3">
-                  {Array.from({ length: totalSteps }).map((_, index) => {
-                    const number = index + 1;
-                    const active = number === step;
-                    const done = number < step;
+                <div className="mt-10">
+                  {[
+                    {
+                      number: 1,
+                      label: "Contact",
+                      description: "Share your contact details",
+                    },
+                    {
+                      number: 2,
+                      label: "Preferred time",
+                      description: "Choose when you would like to speak with us",
+                    },
+                    {
+                      number: 3,
+                      label: "Review & send",
+                      description: "Review and send your demo request",
+                    },
+                  ].map((item, index, items) => {
+                    const active = item.number === step;
+                    const done = item.number < step;
+
                     return (
-                      <div key={number} className="flex items-center gap-3">
-                        <span
-                          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-black transition ${
-                            done
-                              ? "bg-brand-600 text-white"
-                              : active
-                                ? "bg-white text-slate-950"
-                                : "border border-white/15 bg-white/5 text-slate-400"
-                          }`}
-                        >
-                          {done ? <Icon name="Check" size={15} /> : number}
-                        </span>
-                        <div className={`h-px flex-1 ${number <= step ? "bg-brand-500/60" : "bg-white/10"}`} />
+                      <div key={item.number} className="relative flex gap-4">
+                        <div className="relative flex w-9 shrink-0 flex-col items-center">
+                          <span
+                            className={`relative z-10 flex h-9 w-9 items-center justify-center rounded-full border text-sm font-extrabold transition ${
+                              active
+                                ? "border-brand-400 bg-brand-600 text-white shadow-lg shadow-brand-600/20"
+                                : done
+                                  ? "border-brand-400/70 bg-brand-500/90 text-white"
+                                  : "border-white/20 bg-white/[0.06] text-slate-300"
+                            }`}
+                          >
+                            {item.number}
+                          </span>
+
+                          {index < items.length - 1 && (
+                            <span
+                              className={`my-1 h-9 w-px ${
+                                item.number < step ? "bg-brand-400/80" : "bg-white/15"
+                              }`}
+                            />
+                          )}
+                        </div>
+
+                        <div className={`pb-5 ${index === items.length - 1 ? "pb-0" : ""}`}>
+                          <div
+                            className={`text-sm font-bold ${
+                              active || done ? "text-white" : "text-slate-300"
+                            }`}
+                          >
+                            {item.label}
+                          </div>
+                          <div
+                            className={`mt-1 max-w-[220px] text-xs leading-5 ${
+                              active ? "text-slate-300" : "text-slate-400"
+                            }`}
+                          >
+                            {item.description}
+                          </div>
+                        </div>
                       </div>
                     );
                   })}
