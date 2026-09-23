@@ -33,11 +33,23 @@ function clearLeadSession() {
   }
 }
 
+function isValidIndianMobile(phone) {
+  return /^[6-9]\d{9}$/.test(phone);
+}
+
+function normalizeIndianMobileInput(value) {
+  return value.replace(/\D/g, "").slice(0, 10);
+}
+
+function toIndianE164(phone) {
+  return `+91${phone}`;
+}
+
 function isValidContact(form) {
   return (
     form.fullName.trim().length >= 2 &&
     /^\S+@\S+\.\S+$/.test(form.workEmail.trim()) &&
-    form.phone.replace(/\D/g, "").length >= 7
+    isValidIndianMobile(form.phone)
   );
 }
 
@@ -176,7 +188,7 @@ function DemoFlow({ onClose }) {
             sessionId: leadSessionId,
             fullName: form.fullName.trim(),
             email: form.workEmail.trim(),
-            phone: form.phone.trim(),
+            phone: toIndianE164(form.phone),
             companyName: form.companyName.trim(),
             teamSize: form.teamSize,
             lastStep: 1,
@@ -207,7 +219,7 @@ function DemoFlow({ onClose }) {
       sessionId: leadSessionId,
       fullName: form.fullName.trim(),
       email: form.workEmail.trim(),
-      phone: form.phone.trim(),
+      phone: toIndianE164(form.phone),
       companyName: form.companyName.trim(),
       teamSize: form.teamSize,
       preferredDate: form.date || null,
@@ -227,7 +239,7 @@ function DemoFlow({ onClose }) {
     if (step === 1) {
       if (!form.fullName.trim()) nextErrors.fullName = "Required";
       if (!/^\S+@\S+\.\S+$/.test(form.workEmail.trim())) nextErrors.workEmail = "Enter a valid email";
-      if (form.phone.replace(/\D/g, "").length < 7) nextErrors.phone = "Enter a valid phone number";
+      if (!isValidIndianMobile(form.phone)) nextErrors.phone = "Enter a valid 10-digit Indian mobile number";
     }
 
     if (step === 2) {
@@ -300,7 +312,23 @@ function DemoFlow({ onClose }) {
               {errors.fullName && <span className="mt-1 block text-xs text-rose-500">{errors.fullName}</span>}
             </Field>
             <Field label="Phone number">
-              <input type="tel" className={inputClass} value={form.phone} onChange={(e) => update("phone", e.target.value)} placeholder="+91 98765 43210" />
+              <div className="mt-2 flex w-full overflow-hidden rounded-xl border border-slate-200 bg-white transition focus-within:border-brand-400 focus-within:ring-4 focus-within:ring-brand-100">
+                <span className="flex items-center border-r border-slate-200 bg-slate-50 px-3.5 text-sm font-semibold text-slate-600">
+                  +91
+                </span>
+                <input
+                  type="tel"
+                  inputMode="numeric"
+                  autoComplete="tel-national"
+                  maxLength={10}
+                  value={form.phone}
+                  onChange={(e) => update("phone", normalizeIndianMobileInput(e.target.value))}
+                  placeholder="9876543210"
+                  className="min-w-0 flex-1 bg-white px-3.5 py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400"
+                  aria-invalid={Boolean(errors.phone)}
+                />
+              </div>
+              <span className="mt-1.5 block text-[11px] text-slate-400">Enter a 10-digit Indian mobile number.</span>
               {errors.phone && <span className="mt-1 block text-xs text-rose-500">{errors.phone}</span>}
             </Field>
             <Field label="Work email">
@@ -379,7 +407,7 @@ function DemoFlow({ onClose }) {
 
           <div className="mt-7 grid gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:grid-cols-2">
             <div><div className={labelClass}>Name</div><div className="mt-1 text-sm font-bold text-slate-900">{form.fullName}</div></div>
-            <div><div className={labelClass}>Phone</div><div className="mt-1 text-sm font-bold text-slate-900">{form.phone}</div></div>
+            <div><div className={labelClass}>Phone</div><div className="mt-1 text-sm font-bold text-slate-900">+91 {form.phone}</div></div>
             <div><div className={labelClass}>Email</div><div className="mt-1 break-all text-sm font-bold text-slate-900">{form.workEmail}</div></div>
             <div><div className={labelClass}>Company</div><div className="mt-1 text-sm font-bold text-slate-900">{form.companyName || "—"}</div></div>
             <div><div className={labelClass}>Team size</div><div className="mt-1 text-sm font-bold text-slate-900">{form.teamSize || "—"}</div></div>
