@@ -22,8 +22,8 @@ export const site = {
 
   hero: {
     badge: "Built for growing consultancies and service teams",
-    title: "Run leads, admissions, teams and revenue from",
-    titleHighlight: "one business control center",
+    title: "Run Leads Admissions, Teams and Revenue from",
+    titleHighlight: "One business Control center",
     subtitle:
       "Bispun connects the complete journey from enquiry to counselling, admission and payment — giving management clear visibility without depending on Excel, WhatsApp or manually prepared reports.",
     primaryCta: { label: "Book a Demo", href: "#demo" },
