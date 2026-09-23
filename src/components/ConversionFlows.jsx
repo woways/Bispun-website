@@ -38,7 +38,11 @@ function isValidIndianMobile(phone) {
 }
 
 function normalizeIndianMobileInput(value) {
-  return value.replace(/\D/g, "").slice(0, 10);
+  const digits = String(value || "").replace(/\D/g, "");
+  const nationalNumber =
+    digits.startsWith("91") && digits.length > 10 ? digits.slice(2) : digits;
+
+  return nationalNumber.slice(0, 10);
 }
 
 function toIndianE164(phone) {
@@ -174,6 +178,28 @@ function DemoFlow({ onClose }) {
     setSubmitError("");
   };
 
+  const updatePhone = (value) => {
+    const phone = normalizeIndianMobileInput(value);
+
+    setForm((current) => ({ ...current, phone }));
+    setSubmitError("");
+
+    setErrors((current) => ({
+      ...current,
+      phone:
+        phone &&
+        ((phone.length === 10 && !isValidIndianMobile(phone)) || /^[0-5]/.test(phone))
+          ? "Enter a valid number"
+          : "",
+    }));
+  };
+
+  const validatePhoneOnBlur = () => {
+    if (form.phone && !isValidIndianMobile(form.phone)) {
+      setErrors((current) => ({ ...current, phone: "Enter a valid number" }));
+    }
+  };
+
   // Capture the lead as soon as the three core contact fields are valid.
   // This is intentionally independent of the Continue button so abandoned
   // demo flows still appear in the CRM Super Admin -> Website Leads section.
@@ -239,7 +265,7 @@ function DemoFlow({ onClose }) {
     if (step === 1) {
       if (!form.fullName.trim()) nextErrors.fullName = "Required";
       if (!/^\S+@\S+\.\S+$/.test(form.workEmail.trim())) nextErrors.workEmail = "Enter a valid email";
-      if (!isValidIndianMobile(form.phone)) nextErrors.phone = "Enter a valid 10-digit Indian mobile number";
+      if (!isValidIndianMobile(form.phone)) nextErrors.phone = "Enter a valid number";
     }
 
     if (step === 2) {
@@ -312,8 +338,18 @@ function DemoFlow({ onClose }) {
               {errors.fullName && <span className="mt-1 block text-xs text-rose-500">{errors.fullName}</span>}
             </Field>
             <Field label="Phone number">
-              <div className="mt-2 flex w-full overflow-hidden rounded-xl border border-slate-200 bg-white transition focus-within:border-brand-400 focus-within:ring-4 focus-within:ring-brand-100">
-                <span className="flex items-center border-r border-slate-200 bg-slate-50 px-3.5 text-sm font-semibold text-slate-600">
+              <div
+                className={`mt-2 flex w-full overflow-hidden rounded-xl border bg-white transition focus-within:ring-4 ${
+                  errors.phone
+                    ? "border-rose-400 focus-within:border-rose-500 focus-within:ring-rose-100"
+                    : "border-slate-200 focus-within:border-brand-400 focus-within:ring-brand-100"
+                }`}
+              >
+                <span
+                  className={`flex items-center border-r bg-slate-50 px-3.5 text-sm font-semibold ${
+                    errors.phone ? "border-rose-200 text-rose-600" : "border-slate-200 text-slate-600"
+                  }`}
+                >
                   +91
                 </span>
                 <input
@@ -322,14 +358,21 @@ function DemoFlow({ onClose }) {
                   autoComplete="tel-national"
                   maxLength={10}
                   value={form.phone}
-                  onChange={(e) => update("phone", normalizeIndianMobileInput(e.target.value))}
+                  onChange={(e) => updatePhone(e.target.value)}
+                  onBlur={validatePhoneOnBlur}
                   placeholder="9876543210"
                   className="min-w-0 flex-1 bg-white px-3.5 py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400"
                   aria-invalid={Boolean(errors.phone)}
                 />
               </div>
-              <span className="mt-1.5 block text-[11px] text-slate-400">Enter a 10-digit Indian mobile number.</span>
-              {errors.phone && <span className="mt-1 block text-xs text-rose-500">{errors.phone}</span>}
+              <span className="mt-1.5 block text-[11px] text-slate-400">
+                Enter a 10-digit Indian mobile number.
+              </span>
+              {errors.phone && (
+                <span className="mt-1 block text-xs font-semibold text-rose-600">
+                  {errors.phone}
+                </span>
+              )}
             </Field>
             <Field label="Work email">
               <input type="email" className={inputClass} value={form.workEmail} onChange={(e) => update("workEmail", e.target.value)} placeholder="name@company.com" />
