@@ -137,7 +137,7 @@ function ProductPreview() {
   }, []);
 
   return (
-    <div className="hero-laptop-wrap relative mx-auto w-full max-w-[760px] lg:mx-0">
+    <div className="hero-laptop-wrap relative mx-auto w-full max-w-[820px] lg:mx-0">
       <div className="hero-laptop-motion relative h-full w-full">
         <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center">
           <Lottie
@@ -480,14 +480,38 @@ export default function Hero() {
         }
 
         @media (min-width: 1024px) {
+          .hero-copy {
+            transform: translateX(-28px);
+            width: calc(100% + 28px);
+          }
+
           .hero-product-position {
             padding-top: clamp(1.5rem, 4vh, 3rem);
+          }
+
+          .hero-laptop-wrap {
+            width: 108%;
+          }
+        }
+
+        @media (min-width: 1280px) {
+          .hero-copy {
+            transform: translateX(-52px);
+            width: calc(100% + 52px);
+          }
+        }
+
+        @media (min-width: 1536px) {
+          .hero-copy {
+            transform: translateX(-72px);
+            width: calc(100% + 72px);
           }
         }
 
         @media (max-width: 1279px) and (min-width: 1024px) {
           .hero-laptop-wrap {
             min-height: 420px;
+            width: 102%;
           }
 
           .hero-screen {
@@ -585,8 +609,8 @@ export default function Hero() {
       <div className="pointer-events-none absolute -right-24 top-12 h-80 w-80 rounded-full bg-brand-100/70 blur-3xl" />
 
       <div className="container-x relative py-12 sm:py-14 lg:py-14">
-        <div className="grid gap-10 lg:grid-cols-[0.86fr_1.14fr] lg:items-start lg:gap-10 xl:gap-14">
-          <div className="text-center lg:text-left">
+        <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start lg:gap-16 xl:gap-20">
+          <div className="hero-copy text-center lg:text-left">
             <span className="inline-flex items-center gap-2 rounded-full border border-brand-100 bg-white/80 px-3 py-1.5 text-xs font-semibold text-brand-700 shadow-sm">
               <span className="h-1.5 w-1.5 rounded-full bg-brand-500" />
               {hero.badge}
@@ -638,7 +662,7 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="hero-product-position flex min-w-0 justify-center lg:justify-end">
+          <div className="hero-product-position flex min-w-0 justify-center lg:justify-end lg:translate-x-5 xl:translate-x-8 2xl:translate-x-10">
             <ProductPreview />
           </div>
         </div>
