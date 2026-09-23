@@ -6,31 +6,10 @@ import { saveWebsiteLead } from "../lib/api";
 const inputClass =
   "mt-2 w-full rounded-xl border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-brand-400 focus:ring-4 focus:ring-brand-100";
 const labelClass = "text-xs font-bold uppercase tracking-[0.08em] text-slate-500";
-const LEAD_SESSION_KEY = "bispun_website_demo_lead_session";
-
-function getLeadSessionId() {
-  try {
-    const existing = window.localStorage.getItem(LEAD_SESSION_KEY);
-    if (existing) return existing;
-
-    const id =
-      typeof window.crypto?.randomUUID === "function"
-        ? window.crypto.randomUUID()
-        : `lead-${Date.now()}-${Math.random().toString(36).slice(2, 12)}`;
-
-    window.localStorage.setItem(LEAD_SESSION_KEY, id);
-    return id;
-  } catch {
-    return `lead-${Date.now()}-${Math.random().toString(36).slice(2, 12)}`;
-  }
-}
-
-function clearLeadSession() {
-  try {
-    window.localStorage.removeItem(LEAD_SESSION_KEY);
-  } catch {
-    // Ignore browsers that block localStorage.
-  }
+function createLeadSessionId() {
+  return typeof window.crypto?.randomUUID === "function"
+    ? window.crypto.randomUUID()
+    : `lead-${Date.now()}-${Math.random().toString(36).slice(2, 12)}`;
 }
 
 function isValidIndianMobile(phone) {
@@ -154,7 +133,7 @@ function DemoFlow({ onClose }) {
   const [submitError, setSubmitError] = useState("");
   const [leadId, setLeadId] = useState("");
   const [autoSaveState, setAutoSaveState] = useState("idle");
-  const [leadSessionId] = useState(() => getLeadSessionId());
+  const [leadSessionId] = useState(() => createLeadSessionId());
   const [form, setForm] = useState({
     fullName: "",
     workEmail: "",
@@ -240,6 +219,31 @@ function DemoFlow({ onClose }) {
     form.teamSize,
   ]);
 
+  const closeDemo = () => {
+    if (step < 4 && isValidContact(form)) {
+      saveWebsiteLead(
+        {
+          sessionId: leadSessionId,
+          fullName: form.fullName.trim(),
+          email: form.workEmail.trim(),
+          phone: toIndianE164(form.phone),
+          companyName: form.companyName.trim(),
+          teamSize: form.teamSize,
+          preferredDate: form.date || null,
+          preferredTime: form.time || null,
+          note: form.note.trim(),
+          lastStep: Math.min(step, 3),
+          demoRequested: false,
+        },
+        { keepalive: true }
+      ).catch(() => {
+        // The debounced autosave may already have captured the contact.
+      });
+    }
+
+    onClose();
+  };
+
   const saveProgress = async (lastStep, demoRequested = false) => {
     const result = await saveWebsiteLead({
       sessionId: leadSessionId,
@@ -304,7 +308,6 @@ function DemoFlow({ onClose }) {
       setSubmitting(true);
       try {
         await saveProgress(3, true);
-        clearLeadSession();
         setErrors({});
         setStep(4);
       } catch (error) {
@@ -323,7 +326,7 @@ function DemoFlow({ onClose }) {
   };
 
   return (
-    <ModalShell title="See how Bispun fits your actual workflow." eyebrow="Book a demo" step={Math.min(step, 3)} totalSteps={3} onClose={onClose}>
+    <ModalShell title="See how Bispun fits your actual workflow." eyebrow="Book a demo" step={Math.min(step, 3)} totalSteps={3} onClose={closeDemo}>
       {step === 1 && (
         <div>
           <div className="text-xs font-bold uppercase tracking-[0.16em] text-brand-600">Step 1 · Contact</div>
@@ -487,7 +490,7 @@ function DemoFlow({ onClose }) {
             <div className="mt-6 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">{submitError}</div>
           )}
           <div className="mt-8 flex items-center justify-between border-t border-slate-100 pt-5">
-            <button type="button" disabled={submitting} onClick={step === 1 ? onClose : back} className="rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-500 transition hover:bg-slate-50 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-50">
+            <button type="button" disabled={submitting} onClick={step === 1 ? closeDemo : back} className="rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-500 transition hover:bg-slate-50 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-50">
               {step === 1 ? "Cancel" : "Back"}
             </button>
             <button type="button" disabled={submitting} onClick={next} className="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-5 py-3 text-sm font-semibold text-white shadow-sm shadow-brand-600/20 transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-60">
