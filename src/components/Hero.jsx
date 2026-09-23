@@ -4,7 +4,7 @@ import { site } from "../data/site";
 import Icon from "./Icon";
 import laptopAnimation from "../assets/Laptop.json";
 
-function useCountUp(end, duration = 5400) {
+function useCountUp(end, duration = 6500, step = 1) {
   const [value, setValue] = useState(0);
   const started = useRef(false);
   const targetRef = useRef(null);
@@ -32,7 +32,11 @@ function useCountUp(end, duration = 5400) {
         const progress = Math.min((now - startTime) / duration, 1);
         const eased = 1 - Math.pow(1 - progress, 3);
 
-        setValue(Math.round(end * eased));
+        const rawValue = end * eased;
+        const steppedValue =
+          step > 1 ? Math.round(rawValue / step) * step : Math.round(rawValue);
+
+        setValue(Math.min(steppedValue, end));
 
         if (progress < 1) {
           requestAnimationFrame(tick);
@@ -55,7 +59,7 @@ function useCountUp(end, duration = 5400) {
     observer.observe(node);
 
     return () => observer.disconnect();
-  }, [end, duration]);
+  }, [end, duration, step]);
 
   return { value, targetRef };
 }
@@ -66,8 +70,10 @@ function AnimatedMetric({
   suffix = "",
   className = "",
   grouping = true,
+  duration = 6500,
+  step = 1,
 }) {
-  const { value, targetRef } = useCountUp(end);
+  const { value, targetRef } = useCountUp(end, duration, step);
 
   return (
     <span ref={targetRef} className={className}>
@@ -180,53 +186,61 @@ function ProductPreview() {
 
               <div className="pointer-events-none absolute inset-0">
                 <div className="metric-cover metric-total-leads">
-                  <AnimatedMetric end={248} className="metric-value" />
+                  <AnimatedMetric end={48} className="metric-value" />
                 </div>
 
                 <div className="metric-cover metric-qualified">
-                  <AnimatedMetric end={84} className="metric-value" />
+                  <AnimatedMetric end={21} className="metric-value" />
                 </div>
 
                 <div className="metric-cover metric-new-leads">
-                  <AnimatedMetric end={164} className="metric-value" />
+                  <AnimatedMetric end={27} className="metric-value" />
                 </div>
 
                 <div className="metric-cover metric-admissions">
-                  <AnimatedMetric end={36} className="metric-value" />
+                  <AnimatedMetric end={12} className="metric-value" />
                 </div>
 
                 <div className="metric-cover metric-potential-revenue">
                   <AnimatedMetric
-                    end={840000}
+                    end={180000}
                     prefix="₹"
                     grouping={false}
+                    duration={9000}
+                    step={5000}
                     className="metric-value metric-value-money"
                   />
                 </div>
 
                 <div className="metric-cover metric-received-revenue">
                   <AnimatedMetric
-                    end={620000}
+                    end={125000}
                     prefix="₹"
                     grouping={false}
+                    duration={9000}
+                    step={5000}
                     className="metric-value metric-value-money"
                   />
                 </div>
 
                 <div className="metric-cover metric-pending-revenue">
                   <AnimatedMetric
-                    end={220000}
+                    end={55000}
                     prefix="₹"
                     grouping={false}
+                    duration={9000}
+                    step={5000}
                     className="metric-value metric-value-money"
                   />
                 </div>
 
                 <div className="metric-cover metric-current-profit">
                   <AnimatedMetric
-                    end={180000}
+                    end={75000}
                     prefix="₹"
                     grouping={false}
+                    duration={9000}
+                    step={5000}
                     className="metric-value metric-value-money"
                   />
                 </div>

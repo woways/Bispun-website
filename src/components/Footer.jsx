@@ -54,18 +54,18 @@ export default function Footer() {
           <p className="text-xs text-slate-400">
             © {new Date().getFullYear()} {brand.name}. All rights reserved.
           </p>
-          <p className="text-xs text-slate-400">
-            Illustrations by{" "}
-            <a
-              href="https://storyset.com/"
-              target="_blank"
-              rel="noreferrer"
-              className="font-semibold text-slate-500 hover:text-brand-700"
-            >
-              Storyset
-            </a>
-            {" "}· Made with care in India.
-          </p>
+          <p className="mt-3 text-[10px] text-slate-400">
+  Illustrations by{" "}
+  <a
+    href="https://storyset.com/"
+    target="_blank"
+    rel="noreferrer"
+    className="font-medium text-slate-500 hover:text-slate-700"
+  >
+    Storyset
+  </a>
+  .
+</p>
         </div>
       </div>
     </footer>
