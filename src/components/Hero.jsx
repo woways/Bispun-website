@@ -265,13 +265,13 @@ function ProductPreview() {
         />
 
         <OrbitBubble
-          className="hero-bubble-send -left-[2%] top-[48%] hidden lg:flex"
+          className="hero-bubble-send -left-[2%] top-[58%] hidden lg:flex"
           symbol="send"
           label="Follow-up sent"
         />
 
         <OrbitBubble
-          className="hero-bubble-shield -right-[2%] top-[52%] hidden lg:flex"
+          className="hero-bubble-shield -right-[2%] top-[68%] hidden lg:flex"
           symbol="shield"
           label="Secure workspace"
         />
