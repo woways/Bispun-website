@@ -2,13 +2,13 @@ export const site = {
   brand: {
     name: "Bispun",
     tagline: "Business Control CRM",
-    appUrl: "https://consulbuzz.vercel.app/",
+    appUrl: "/login",
     email: "info@bispun.com",
     phone: "+91 00000 00000",
   },
 
   actions: {
-    signup: { label: "Sign Up", href: "https://consulbuzz.vercel.app/" },
+    signup: { label: "Sign Up", href: "/login" },
     demo: { label: "Book a Demo", href: "#demo" },
   },
 
@@ -338,7 +338,7 @@ export const site = {
         title: "Contact",
         links: [
           { label: "Email us", href: "mailto:info@bispun.com" },
-          { label: "Sign Up", href: "https://consulbuzz.vercel.app/" },
+          { label: "Sign Up", href: "/login" },
         ],
       },
     ],

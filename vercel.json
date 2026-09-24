@@ -1,7 +1,32 @@
 {
   "rewrites": [
-    { "source": "/privacy", "destination": "/index.html" },
-    { "source": "/terms", "destination": "/index.html" },
-    { "source": "/contact", "destination": "/index.html" }
+    {
+      "source": "/login",
+      "destination": "https://consulbuzz.vercel.app/login"
+    },
+    {
+      "source": "/app",
+      "destination": "https://consulbuzz.vercel.app/app"
+    },
+    {
+      "source": "/app/:path*",
+      "destination": "https://consulbuzz.vercel.app/app/:path*"
+    },
+    {
+      "source": "/crm-assets/:path*",
+      "destination": "https://consulbuzz.vercel.app/crm-assets/:path*"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/terms",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/index.html"
+    }
   ]
 }
