@@ -1,6 +1,18 @@
 {
   "rewrites": [
     {
+      "source": "/admin/login",
+      "destination": "https://consulbuzz.vercel.app/admin/login"
+    },
+    {
+      "source": "/admin",
+      "destination": "https://consulbuzz.vercel.app/admin"
+    },
+    {
+      "source": "/admin/:path*",
+      "destination": "https://consulbuzz.vercel.app/admin/:path*"
+    },
+    {
       "source": "/login",
       "destination": "https://consulbuzz.vercel.app/login"
     },
