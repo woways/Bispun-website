@@ -87,7 +87,7 @@ function AnimatedMetric({
 function OrbitSymbol({ type }) {
   if (type === "message") {
     return (
-      <svg viewBox="0 0 24 24" className="h-[19px] w-[19px]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg viewBox="0 0 24 24" className="h-[28px] w-[28px]" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M21 15a4 4 0 0 1-4 4H8l-5 3 1.6-4.8A7 7 0 0 1 3 12V8a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z" />
         <path d="M8 10h8M8 14h5" />
       </svg>
@@ -96,7 +96,7 @@ function OrbitSymbol({ type }) {
 
   if (type === "calendar") {
     return (
-      <svg viewBox="0 0 24 24" className="h-[19px] w-[19px]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg viewBox="0 0 24 24" className="h-[28px] w-[28px]" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <rect x="3" y="5" width="18" height="16" rx="2" />
         <path d="M8 3v4M16 3v4M3 10h18" />
         <path d="m9 15 2 2 4-4" />
@@ -106,7 +106,7 @@ function OrbitSymbol({ type }) {
 
   if (type === "send") {
     return (
-      <svg viewBox="0 0 24 24" className="h-[19px] w-[19px]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg viewBox="0 0 24 24" className="h-[28px] w-[28px]" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="m22 2-7 20-4-9-9-4z" />
         <path d="M22 2 11 13" />
       </svg>
@@ -114,7 +114,7 @@ function OrbitSymbol({ type }) {
   }
 
   return (
-    <svg viewBox="0 0 24 24" className="h-[20px] w-[20px]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg viewBox="0 0 24 24" className="h-[29px] w-[29px]" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" />
       <path d="m9 12 2 2 4-4" />
     </svg>
@@ -124,7 +124,7 @@ function OrbitSymbol({ type }) {
 function OrbitBubble({ className, symbol, label }) {
   return (
     <div
-      className={`hero-orbit-bubble pointer-events-none absolute z-20 flex h-11 w-11 items-center justify-center rounded-2xl border border-white/80 bg-white/95 text-brand-600 shadow-[0_14px_34px_rgba(15,23,42,0.12)] ${className}`}
+      className={`hero-orbit-bubble pointer-events-none absolute z-20 flex h-14 w-14 items-center justify-center text-brand-500/70 ${className}`}
       aria-label={label}
       title={label}
     >
@@ -253,25 +253,25 @@ function ProductPreview() {
         <div className="hero-orbit-ring-alt pointer-events-none absolute left-1/2 top-[51%] z-[1] hidden h-[61%] w-[91%] -translate-x-1/2 -translate-y-1/2 rounded-[50%] border border-brand-100/45 lg:block" />
 
         <OrbitBubble
-          className="hero-bubble-message left-[12%] top-[5%] hidden sm:flex"
+          className="hero-bubble-message left-[18%] -top-[8%] hidden lg:flex"
           symbol="message"
           label="New enquiry"
         />
 
         <OrbitBubble
-          className="hero-bubble-calendar right-[12%] top-[4%] hidden md:flex"
+          className="hero-bubble-calendar right-[18%] -top-[5%] hidden md:flex"
           symbol="calendar"
           label="Demo scheduled"
         />
 
         <OrbitBubble
-          className="hero-bubble-send -left-[2%] top-[58%] hidden lg:flex"
+          className="hero-bubble-send -left-[7%] top-[43%] hidden lg:flex"
           symbol="send"
           label="Follow-up sent"
         />
 
         <OrbitBubble
-          className="hero-bubble-shield -right-[2%] top-[68%] hidden lg:flex"
+          className="hero-bubble-shield -right-[7%] top-[62%] hidden lg:flex"
           symbol="shield"
           label="Secure workspace"
         />
@@ -388,25 +388,15 @@ export default function Hero() {
         }
 
         .hero-orbit-bubble {
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-          will-change: transform;
+          opacity: 0.78;
+          filter: saturate(1);
+          animation: none !important;
+          transform: none !important;
+          transition: none !important;
         }
 
-        .hero-bubble-message {
-          animation: hero-bubble-message 7.4s ease-in-out infinite;
-        }
-
-        .hero-bubble-calendar {
-          animation: hero-bubble-calendar 8.2s ease-in-out infinite;
-        }
-
-        .hero-bubble-send {
-          animation: hero-bubble-send 8.8s ease-in-out infinite;
-        }
-
-        .hero-bubble-shield {
-          animation: hero-bubble-shield 7.8s ease-in-out infinite;
+        .hero-laptop-wrap {
+          overflow: visible;
         }
 
         .hero-spark {
@@ -456,26 +446,6 @@ export default function Hero() {
         @keyframes hero-orbit-ring-alt {
           from { transform: translate(-50%, -50%) rotate(0deg); }
           to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        @keyframes hero-bubble-message {
-          0%, 100% { transform: translate3d(0, 0, 0) rotate(-4deg); }
-          50% { transform: translate3d(7px, -14px, 0) rotate(4deg); }
-        }
-
-        @keyframes hero-bubble-calendar {
-          0%, 100% { transform: translate3d(0, 0, 0) rotate(4deg); }
-          50% { transform: translate3d(-8px, -12px, 0) rotate(-4deg); }
-        }
-
-        @keyframes hero-bubble-send {
-          0%, 100% { transform: translate3d(0, 0, 0) rotate(-3deg); }
-          50% { transform: translate3d(8px, -11px, 0) rotate(5deg); }
-        }
-
-        @keyframes hero-bubble-shield {
-          0%, 100% { transform: translate3d(0, 0, 0) rotate(3deg); }
-          50% { transform: translate3d(-7px, -14px, 0) rotate(-5deg); }
         }
 
         @keyframes hero-spark-one {
