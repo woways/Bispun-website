@@ -253,31 +253,31 @@ function ProductPreview() {
         <div className="hero-orbit-ring-alt pointer-events-none absolute left-1/2 top-[51%] z-[1] hidden h-[61%] w-[91%] -translate-x-1/2 -translate-y-1/2 rounded-[50%] border border-brand-100/45 lg:block" />
 
         <OrbitBubble
-          className="hero-bubble-message left-0 top-[27%] hidden sm:flex"
+          className="hero-bubble-message left-[12%] top-[5%] hidden sm:flex"
           symbol="message"
           label="New enquiry"
         />
 
         <OrbitBubble
-          className="hero-bubble-calendar right-0 top-[19%] hidden md:flex"
+          className="hero-bubble-calendar right-[12%] top-[4%] hidden md:flex"
           symbol="calendar"
           label="Demo scheduled"
         />
 
         <OrbitBubble
-          className="hero-bubble-send bottom-[15%] left-[1%] hidden lg:flex"
+          className="hero-bubble-send -left-[2%] top-[48%] hidden lg:flex"
           symbol="send"
           label="Follow-up sent"
         />
 
         <OrbitBubble
-          className="hero-bubble-shield bottom-[9%] right-[1%] hidden lg:flex"
+          className="hero-bubble-shield -right-[2%] top-[52%] hidden lg:flex"
           symbol="shield"
           label="Secure workspace"
         />
 
-        <div className="hero-spark hero-spark-1 pointer-events-none absolute left-[19%] top-[9%] z-20 hidden h-2.5 w-2.5 rounded-full bg-brand-400/80 sm:block" />
-        <div className="hero-spark hero-spark-2 pointer-events-none absolute right-[20%] top-[7%] z-20 hidden h-2 w-2 rounded-full bg-brand-300/80 sm:block" />
+        <div className="hero-spark hero-spark-1 pointer-events-none absolute left-[27%] top-[15%] z-20 hidden h-2.5 w-2.5 rounded-full bg-brand-400/80 sm:block" />
+        <div className="hero-spark hero-spark-2 pointer-events-none absolute right-[27%] top-[14%] z-20 hidden h-2 w-2 rounded-full bg-brand-300/80 sm:block" />
         <div className="hero-spark hero-spark-3 pointer-events-none absolute bottom-[7%] left-[50%] z-20 hidden h-2 w-2 rounded-full bg-brand-500/70 lg:block" />
       </div>
     </div>
