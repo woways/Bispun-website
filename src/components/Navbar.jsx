@@ -11,13 +11,12 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/90 backdrop-blur-xl">
       <nav className="container-x flex h-16 items-center justify-between gap-6">
-        <a href="/" className="flex shrink-0 items-center gap-2.5">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 text-sm font-extrabold text-white shadow-sm shadow-brand-600/20">
-            BI
-          </span>
-          <span className="text-lg font-extrabold tracking-tight text-slate-950">
-            {brand.name}<span className="text-brand-600">.</span>
-          </span>
+        <a href="/" className="flex shrink-0 items-center" aria-label={`${brand.name} home`}>
+          <img
+            src="/brand/bispun-logo.png"
+            alt={brand.name}
+            className="h-10 w-auto object-contain sm:h-11"
+          />
         </a>
 
         <div className="hidden items-center gap-7 lg:flex">
