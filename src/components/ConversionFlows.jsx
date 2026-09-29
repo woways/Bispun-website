@@ -32,9 +32,19 @@ function isValidPreferredDate(date, minDate) {
   return /^\d{4}-\d{2}-\d{2}$/.test(date) && date >= minDate;
 }
 
+function isValidPersonName(value) {
+  const name = String(value || "").trim();
+
+  return (
+    name.length >= 2 &&
+    /\p{L}/u.test(name) &&
+    /^[\p{L}\s.'’]+$/u.test(name)
+  );
+}
+
 function isValidContact(form) {
   return (
-    form.fullName.trim().length >= 2 &&
+    isValidPersonName(form.fullName) &&
     /^\S+@\S+\.\S+$/.test(form.workEmail.trim()) &&
     isValidIndianMobile(form.phone)
   );
@@ -203,6 +213,19 @@ function DemoFlow({ onClose }) {
     setSubmitError("");
   };
 
+  const updateName = (value) => {
+    setForm((current) => ({ ...current, fullName: value }));
+    setSubmitError("");
+
+    setErrors((current) => ({
+      ...current,
+      fullName:
+        value && !isValidPersonName(value)
+          ? "Use letters, spaces, apostrophes and periods only"
+          : "",
+    }));
+  };
+
   const updateDate = (value) => {
     setForm((current) => ({ ...current, date: value }));
     setSubmitError("");
@@ -333,9 +356,20 @@ function DemoFlow({ onClose }) {
     const nextErrors = {};
 
     if (step === 1) {
-      if (!form.fullName.trim()) nextErrors.fullName = "Required";
-      if (!/^\S+@\S+\.\S+$/.test(form.workEmail.trim())) nextErrors.workEmail = "Enter a valid email";
-      if (!isValidIndianMobile(form.phone)) nextErrors.phone = "Enter a valid number";
+      if (!form.fullName.trim()) {
+        nextErrors.fullName = "Required";
+      } else if (!isValidPersonName(form.fullName)) {
+        nextErrors.fullName =
+          "Use letters, spaces, apostrophes and periods only";
+      }
+
+      if (!/^\S+@\S+\.\S+$/.test(form.workEmail.trim())) {
+        nextErrors.workEmail = "Enter a valid email";
+      }
+
+      if (!isValidIndianMobile(form.phone)) {
+        nextErrors.phone = "Enter a valid number";
+      }
     }
 
     if (step === 2) {
@@ -428,7 +462,14 @@ function DemoFlow({ onClose }) {
 
           <div className="mt-7 grid gap-5 sm:grid-cols-2">
             <Field label="Your name">
-              <input className={inputClass} value={form.fullName} onChange={(e) => update("fullName", e.target.value)} placeholder="Full name" />
+              <input
+                className={inputClass}
+                value={form.fullName}
+                onChange={(e) => updateName(e.target.value)}
+                placeholder="Full name"
+                autoComplete="name"
+                aria-invalid={Boolean(errors.fullName)}
+              />
               {errors.fullName && <span className="mt-1 block text-xs text-rose-500">{errors.fullName}</span>}
             </Field>
             <Field label="Phone number">

@@ -49,11 +49,12 @@ export default function App() {
 
   useEffect(() => {
     const titles = {
-      home: "Bispun — Business Control CRM",
+      home: "Bispun CRM — One Business Control Center",
       privacy: "Privacy Policy — Bispun",
       terms: "Terms & Conditions — Bispun",
       contact: "Contact — Bispun",
     };
+
     document.title = titles[page];
   }, [page]);
 

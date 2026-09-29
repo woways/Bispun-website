@@ -29,6 +29,10 @@
       "destination": "https://consulbuzz.vercel.app/crm-assets/:path*"
     },
     {
+      "source": "/brand/:path*",
+      "destination": "https://consulbuzz.vercel.app/brand/:path*"
+    },
+    {
       "source": "/privacy",
       "destination": "/index.html"
     },
