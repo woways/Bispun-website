@@ -28,6 +28,10 @@ function toIndianE164(phone) {
   return `+91${phone}`;
 }
 
+function isValidPreferredDate(date, minDate) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(date) && date >= minDate;
+}
+
 function isValidContact(form) {
   return (
     form.fullName.trim().length >= 2 &&
@@ -199,6 +203,19 @@ function DemoFlow({ onClose }) {
     setSubmitError("");
   };
 
+  const updateDate = (value) => {
+    setForm((current) => ({ ...current, date: value }));
+    setSubmitError("");
+
+    setErrors((current) => ({
+      ...current,
+      date:
+        value && !isValidPreferredDate(value, minDate)
+          ? "Choose today or a future date"
+          : "",
+    }));
+  };
+
   const updatePhone = (value) => {
     const phone = normalizeIndianMobileInput(value);
 
@@ -245,8 +262,15 @@ function DemoFlow({ onClose }) {
         );
         setLeadId(result.lead?.id || "");
         setAutoSaveState("saved");
-      } catch {
+      } catch (error) {
         setAutoSaveState("error");
+
+        if (error?.fields?.email) {
+          setErrors((current) => ({
+            ...current,
+            workEmail: error.fields.email,
+          }));
+        }
       }
     }, 650);
 
@@ -271,7 +295,7 @@ function DemoFlow({ onClose }) {
           phone: toIndianE164(form.phone),
           companyName: form.companyName.trim(),
           teamSize: form.teamSize,
-          preferredDate: form.date || null,
+          preferredDate: isValidPreferredDate(form.date, minDate) ? form.date : null,
           preferredTime: form.time || null,
           note: form.note.trim(),
           lastStep: Math.min(step, 3),
@@ -294,7 +318,7 @@ function DemoFlow({ onClose }) {
       phone: toIndianE164(form.phone),
       companyName: form.companyName.trim(),
       teamSize: form.teamSize,
-      preferredDate: form.date || null,
+      preferredDate: isValidPreferredDate(form.date, minDate) ? form.date : null,
       preferredTime: form.time || null,
       note: form.note.trim(),
       lastStep,
@@ -315,7 +339,12 @@ function DemoFlow({ onClose }) {
     }
 
     if (step === 2) {
-      if (!form.date) nextErrors.date = "Choose a date";
+      if (!form.date) {
+        nextErrors.date = "Choose a date";
+      } else if (!isValidPreferredDate(form.date, minDate)) {
+        nextErrors.date = "Choose today or a future date";
+      }
+
       if (!form.time) nextErrors.time = "Choose a time";
     }
 
@@ -327,10 +356,30 @@ function DemoFlow({ onClose }) {
         setAutoSaveState("saving");
         await saveProgress(1, false);
         setAutoSaveState("saved");
-      } catch {
-        // Do not block the visitor. Final submit retries the same CRM save.
+      } catch (error) {
         setAutoSaveState("error");
+
+        const fieldErrors = error?.fields || {};
+        setErrors((current) => ({
+          ...current,
+          ...(fieldErrors.email
+            ? { workEmail: fieldErrors.email }
+            : {}),
+          ...(fieldErrors.fullName
+            ? { fullName: fieldErrors.fullName }
+            : {}),
+          ...(fieldErrors.phone
+            ? { phone: fieldErrors.phone }
+            : {}),
+        }));
+
+        setSubmitError(
+          error?.message ||
+            "Please check your contact details before continuing."
+        );
+        return;
       }
+
       setStep(2);
       return;
     }
@@ -434,7 +483,9 @@ function DemoFlow({ onClose }) {
               <span className="inline-flex items-center gap-1.5 text-emerald-600"><Icon name="Check" size={13} /> Contact saved</span>
             )}
             {autoSaveState === "error" && (
-              <span className="text-amber-600">We’ll retry when you continue.</span>
+              <span className="text-amber-600">
+                Please check the highlighted contact details.
+              </span>
             )}
           </div>
         </div>
@@ -458,7 +509,14 @@ function DemoFlow({ onClose }) {
             </Field>
             <div className="hidden sm:block" />
             <Field label="Preferred date">
-              <input type="date" min={minDate} className={inputClass} value={form.date} onChange={(e) => update("date", e.target.value)} />
+              <input
+                type="date"
+                min={minDate}
+                className={inputClass}
+                value={form.date}
+                onChange={(e) => updateDate(e.target.value)}
+                aria-invalid={Boolean(errors.date)}
+              />
               {errors.date && <span className="mt-1 block text-xs text-rose-500">{errors.date}</span>}
             </Field>
             <Field label="Preferred time">
