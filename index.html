@@ -43,7 +43,56 @@
   </head>
 
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!--
+        Initial crawlable homepage content for SEO and non-JavaScript clients.
+        React will replace this content after the app loads.
+      -->
+
+      <div class="min-h-screen bg-white text-slate-950">
+        <main>
+          <section class="mx-auto max-w-7xl px-6 py-20 sm:py-24 lg:px-8 lg:py-28">
+            <p class="text-sm font-semibold uppercase tracking-wider text-indigo-600">
+              Business Control CRM
+            </p>
+
+            <h1 class="mt-4 max-w-5xl text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+              Run Leads, Admissions, Teams and Revenue from One Business Control Center
+            </h1>
+
+            <p class="mt-6 max-w-3xl text-lg leading-8 text-slate-600">
+              Bispun is a business control CRM for growing consultancies and service teams.
+              Manage leads, admissions, follow-ups, teams, revenue and analytics from one
+              structured workspace.
+            </p>
+
+            <p class="mt-8">
+              <a
+                href="#demo"
+                class="inline-flex rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white"
+              >
+                Book a Demo
+              </a>
+            </p>
+          </section>
+
+          <section class="mx-auto max-w-7xl px-6 pb-20 lg:px-8">
+            <h2 class="text-2xl font-bold tracking-tight">
+              One connected workspace for your business
+            </h2>
+
+            <ul class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <li>Lead management and follow-ups</li>
+              <li>Admissions workflow visibility</li>
+              <li>Team and activity control</li>
+              <li>Revenue tracking</li>
+              <li>Business analytics</li>
+              <li>Structured customer journey management</li>
+            </ul>
+          </section>
+        </main>
+      </div>
+    </div>
 
     <script type="module" src="/src/main.jsx"></script>
   </body>
