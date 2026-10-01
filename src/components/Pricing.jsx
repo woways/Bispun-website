@@ -4,6 +4,9 @@ import Icon from "./Icon";
 export default function Pricing() {
   const { pricing } = site;
 
+  const isOfferActive = (plan) =>
+    Boolean(plan.offerPrice && plan.offerEndsAt && Date.now() <= new Date(plan.offerEndsAt).getTime());
+
   return (
     <section id="pricing" className="bg-white py-20 sm:py-24">
       <div className="container-x">
@@ -29,10 +32,34 @@ export default function Pricing() {
               )}
               <h3 className="text-lg font-bold">{p.name}</h3>
               <p className={`mt-2 max-w-[90%] text-sm leading-6 ${p.highlighted ? "text-slate-300" : "text-slate-500"}`}>{p.blurb}</p>
-              <div className="mt-6 flex items-end gap-1.5">
-                <span className="text-4xl font-extrabold tracking-tight">{p.price}</span>
-                <span className={`pb-1 text-sm ${p.highlighted ? "text-slate-400" : "text-slate-500"}`}>{p.period}</span>
-              </div>
+              {isOfferActive(p) ? (
+                <div className="mt-6">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className={`text-sm font-semibold line-through decoration-2 ${p.highlighted ? "text-slate-400" : "text-slate-400"}`}>
+                      {p.price}{p.period}
+                    </span>
+                    <span className={`rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.08em] ${
+                      p.highlighted
+                        ? "bg-emerald-400/15 text-emerald-300 ring-1 ring-inset ring-emerald-300/30"
+                        : "bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-200"
+                    }`}>
+                      {p.offerLabel}
+                    </span>
+                  </div>
+                  <div className="mt-2 flex items-end gap-1.5">
+                    <span className="text-4xl font-extrabold tracking-tight">{p.offerPrice}</span>
+                    <span className={`pb-1 text-sm ${p.highlighted ? "text-slate-400" : "text-slate-500"}`}>{p.period}</span>
+                  </div>
+                  <div className={`mt-2 text-xs font-semibold ${p.highlighted ? "text-brand-200" : "text-brand-700"}`}>
+                    Offer valid till {p.offerValidUntil}
+                  </div>
+                </div>
+              ) : (
+                <div className="mt-6 flex items-end gap-1.5">
+                  <span className="text-4xl font-extrabold tracking-tight">{p.price}</span>
+                  <span className={`pb-1 text-sm ${p.highlighted ? "text-slate-400" : "text-slate-500"}`}>{p.period}</span>
+                </div>
+              )}
 
               <ul className="mt-7 flex-1 space-y-3">
                 {p.features.map((f) => (

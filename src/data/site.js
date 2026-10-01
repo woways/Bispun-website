@@ -256,6 +256,10 @@ export const site = {
       {
         name: "Pro",
         price: "₹54,000",
+        offerPrice: "₹29,500",
+        offerLabel: "~45% OFF",
+        offerValidUntil: "Nov 10, 2026",
+        offerEndsAt: "2026-11-10T23:59:59+05:30",
         period: "/year",
         blurb: "Built for growing consultancies that need more operational control.",
         features: [
