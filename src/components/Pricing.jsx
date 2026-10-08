@@ -1,6 +1,15 @@
 import { site } from "../data/site";
 import Icon from "./Icon";
 
+// Self-serve signup lives in the CRM app. Each plan button opens the signup
+// page pre-selected to that plan (keys must match the CRM plan keys).
+const SIGNUP_BASE = "https://bispun.com/signup";
+const PLAN_KEYS = { Basic: "basic", Pro: "pro", Advanced: "advanced" };
+const signupHrefFor = (name) => {
+  const key = PLAN_KEYS[name];
+  return key ? `${SIGNUP_BASE}/${key}` : SIGNUP_BASE;
+};
+
 export default function Pricing() {
   const { pricing } = site;
 
@@ -71,7 +80,7 @@ export default function Pricing() {
               </ul>
 
               <a
-                href={site.actions.signup.href}
+                href={signupHrefFor(p.name)}
                 className={`mt-7 inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold transition ${
                   p.highlighted
                     ? "bg-brand-600 text-white hover:bg-brand-500"

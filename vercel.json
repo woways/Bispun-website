@@ -17,6 +17,14 @@
       "destination": "https://consulbuzz.vercel.app/login"
     },
     {
+      "source": "/signup",
+      "destination": "https://consulbuzz.vercel.app/signup"
+    },
+    {
+      "source": "/signup/:path*",
+      "destination": "https://consulbuzz.vercel.app/signup/:path*"
+    },
+    {
       "source": "/app",
       "destination": "https://consulbuzz.vercel.app/app"
     },

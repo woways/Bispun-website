@@ -8,7 +8,7 @@ export const site = {
   },
 
   actions: {
-    signup: { label: "Sign Up", href: "/login" },
+    signup: { label: "Sign Up", href: "https://bispun.com/signup" },
     demo: { label: "Book a Demo", href: "#demo" },
   },
 
