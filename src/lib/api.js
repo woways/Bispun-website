@@ -43,3 +43,21 @@ async function crmRequest(path, payload, options = {}) {
 export function saveWebsiteLead(payload, options = {}) {
   return crmRequest("/api/public/website-leads", payload, options);
 }
+
+// Live plan pricing from the CRM (includes any Super Admin offer). Returns the
+// plans array, or null when the API isn't configured/reachable so callers can
+// fall back to the static site data.
+export async function fetchPublicPlans() {
+  if (!crmApiUrl) return null;
+  try {
+    const response = await fetch(`${crmApiUrl}/api/public/onboard/plans`, {
+      method: "GET",
+      headers: { Accept: "application/json" },
+    });
+    if (!response.ok) return null;
+    const data = await response.json();
+    return Array.isArray(data?.plans) ? data.plans : null;
+  } catch {
+    return null;
+  }
+}

@@ -1,17 +1,55 @@
+import { useEffect, useState } from "react";
 import { site } from "../data/site";
+import { fetchPublicPlans } from "../lib/api";
 import Icon from "./Icon";
 
-// Self-serve signup lives in the CRM app. Each plan button opens the signup
-// page pre-selected to that plan (keys must match the CRM plan keys).
-const SIGNUP_BASE = "https://bispun.com/signup";
-const PLAN_KEYS = { Basic: "basic", Pro: "pro", Advanced: "advanced" };
-const signupHrefFor = (name) => {
-  const key = PLAN_KEYS[name];
-  return key ? `${SIGNUP_BASE}/${key}` : SIGNUP_BASE;
-};
+const inr = (n) => `₹${Number(n || 0).toLocaleString("en-IN")}`;
 
 export default function Pricing() {
   const { pricing } = site;
+  const [plans, setPlans] = useState(pricing.plans);
+
+  // Pull live pricing (and any Super Admin offer) from the CRM, merging it over
+  // the static plan definitions by name. Falls back silently to the static data.
+  useEffect(() => {
+    let active = true;
+    fetchPublicPlans().then((livePlans) => {
+      if (!active || !livePlans) return;
+      const byName = new Map(
+        livePlans.map((lp) => [String(lp.name || "").toLowerCase(), lp])
+      );
+      setPlans(
+        pricing.plans.map((p) => {
+          const live = byName.get(String(p.name || "").toLowerCase());
+          if (!live || live.yearlyPrice == null) return p;
+          const b = live.breakdown || {};
+          const offerLive = Boolean(b.offerActive);
+          const pct =
+            offerLive && live.yearlyPrice > 0
+              ? Math.round((Number(b.discount) / Number(live.yearlyPrice)) * 100)
+              : 0;
+          return {
+            ...p,
+            price: inr(live.yearlyPrice),
+            offerPrice: offerLive ? inr(b.subtotal) : null,
+            offerEndsAt: offerLive ? live.offerEndsAt : null,
+            offerLabel: offerLive ? `~${pct}% OFF` : p.offerLabel,
+            offerValidUntil:
+              offerLive && live.offerEndsAt
+                ? new Date(live.offerEndsAt).toLocaleDateString("en-IN", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                  })
+                : p.offerValidUntil,
+          };
+        })
+      );
+    });
+    return () => {
+      active = false;
+    };
+  }, [pricing.plans]);
 
   const isOfferActive = (plan) =>
     Boolean(plan.offerPrice && plan.offerEndsAt && Date.now() <= new Date(plan.offerEndsAt).getTime());
@@ -27,7 +65,7 @@ export default function Pricing() {
         </div>
 
         <div className="mt-12 grid gap-5 lg:grid-cols-3">
-          {pricing.plans.map((p) => (
+          {plans.map((p) => (
             <div
               key={p.name}
               className={`relative flex flex-col overflow-hidden rounded-[22px] border p-7 transition ${
@@ -80,7 +118,7 @@ export default function Pricing() {
               </ul>
 
               <a
-                href={signupHrefFor(p.name)}
+                href={site.actions.signup.href}
                 className={`mt-7 inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold transition ${
                   p.highlighted
                     ? "bg-brand-600 text-white hover:bg-brand-500"
