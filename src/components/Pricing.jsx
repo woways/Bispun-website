@@ -31,17 +31,19 @@ export default function Pricing() {
           return {
             ...p,
             price: inr(live.yearlyPrice),
+            offerActive: offerLive,
             offerPrice: offerLive ? inr(b.subtotal) : null,
             offerEndsAt: offerLive ? live.offerEndsAt : null,
-            offerLabel: offerLive ? `~${pct}% OFF` : p.offerLabel,
+            offerLabel: offerLive ? `~${pct}% OFF` : null,
             offerValidUntil:
               offerLive && live.offerEndsAt
                 ? new Date(live.offerEndsAt).toLocaleDateString("en-IN", {
                     day: "numeric",
                     month: "short",
                     year: "numeric",
+                    timeZone: "Asia/Kolkata",
                   })
-                : p.offerValidUntil,
+                : null,
           };
         })
       );
@@ -52,7 +54,7 @@ export default function Pricing() {
   }, [pricing.plans]);
 
   const isOfferActive = (plan) =>
-    Boolean(plan.offerPrice && plan.offerEndsAt && Date.now() <= new Date(plan.offerEndsAt).getTime());
+    Boolean(plan.offerActive && plan.offerPrice);
 
   return (
     <section id="pricing" className="bg-white py-20 sm:py-24">
@@ -97,9 +99,11 @@ export default function Pricing() {
                     <span className="text-4xl font-extrabold tracking-tight">{p.offerPrice}</span>
                     <span className={`pb-1 text-sm ${p.highlighted ? "text-slate-400" : "text-slate-500"}`}>{p.period}</span>
                   </div>
-                  <div className={`mt-2 text-xs font-semibold ${p.highlighted ? "text-brand-200" : "text-brand-700"}`}>
-                    Offer valid till {p.offerValidUntil}
-                  </div>
+                  {p.offerValidUntil ? (
+                    <div className={`mt-2 text-xs font-semibold ${p.highlighted ? "text-brand-200" : "text-brand-700"}`}>
+                      Offer valid till {p.offerValidUntil}
+                    </div>
+                  ) : null}
                 </div>
               ) : (
                 <div className="mt-6 flex items-end gap-1.5">

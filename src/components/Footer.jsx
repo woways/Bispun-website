@@ -9,13 +9,12 @@ export default function Footer() {
         <div className="grid gap-10 md:grid-cols-4">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2.5">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 text-sm font-extrabold text-white">
-                BI
-              </span>
-              <span className="text-lg font-extrabold tracking-tight text-slate-900">
-                {brand.name}
-              </span>
+            <div className="flex items-center">
+              <img
+                src="/brand/bispun-logo.png"
+                alt={`${brand.name} logo`}
+                className="h-9 w-auto object-contain"
+              />
             </div>
 
             <p className="mt-3 max-w-xs text-sm text-slate-500">
