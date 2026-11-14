@@ -8,7 +8,8 @@ export const site = {
   },
 
   actions: {
-    signup: { label: "Sign Up", href: "https://bispun.com/signup" },
+    login: { label: "Login", href: "/login" },
+    signup: { label: "Create account", href: "/signup" },
     demo: { label: "Book a Demo", href: "#demo" },
   },
 
@@ -338,7 +339,8 @@ export const site = {
         title: "Contact",
         links: [
           { label: "Email us", href: "mailto:info@bispun.com" },
-          { label: "Sign Up", href: "/login" },
+          { label: "Login", href: "/login" },
+          { label: "Create account", href: "/signup" },
         ],
       },
     ],

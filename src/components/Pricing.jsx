@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { site } from "../data/site";
 import { fetchPublicPlans } from "../lib/api";
+import { authHref } from "../lib/url";
 import Icon from "./Icon";
 
 const inr = (n) => `₹${Number(n || 0).toLocaleString("en-IN")}`;
@@ -122,10 +123,10 @@ export default function Pricing() {
               </ul>
 
               <a
-                href={site.actions.signup.href}
-                className={`mt-7 inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold transition ${
+                href={authHref(site.actions.signup.href)}
+                className={`mt-7 inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 ${
                   p.highlighted
-                    ? "bg-brand-600 text-white hover:bg-brand-500"
+                    ? "bg-brand-600 text-white hover:bg-brand-500 focus-visible:ring-offset-slate-950"
                     : "border border-slate-300 text-slate-800 hover:border-brand-400 hover:text-brand-700"
                 }`}
               >

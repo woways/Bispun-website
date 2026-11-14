@@ -1,4 +1,5 @@
 import { site } from "../data/site";
+import { authHref } from "../lib/url";
 
 export default function Footer() {
   const { brand, footer } = site;
@@ -49,8 +50,8 @@ export default function Footer() {
                 {col.links.map((l) => (
                   <li key={l.label}>
                     <a
-                      href={l.href}
-                      className="text-sm text-slate-500 transition hover:text-brand-700"
+                      href={authHref(l.href)}
+                      className="rounded text-sm text-slate-500 transition hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
                     >
                       {l.label}
                     </a>
