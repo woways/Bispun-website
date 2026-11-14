@@ -123,7 +123,7 @@ export default function Pricing() {
               </ul>
 
               <a
-                href={authHref(site.actions.signup.href)}
+                href={authHref(site.actions.login.href)}
                 className={`mt-7 inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 ${
                   p.highlighted
                     ? "bg-brand-600 text-white hover:bg-brand-500 focus-visible:ring-offset-slate-950"
