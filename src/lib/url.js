@@ -1,11 +1,11 @@
 // Referral / campaign parameter preservation for auth links.
 //
-// The marketing site links out to the CRM-owned auth routes (`/login`,
-// `/signup`, which Vercel rewrites to the CRM). When a visitor arrives with a
-// referral or UTM campaign query string, we forward those parameters to the
-// auth URL so the CRM can attribute the signup. Non-auth links are returned
-// unchanged, and URLs with no relevant params keep their original form so no
-// existing link is broken.
+// The marketing site links out to the CRM-owned auth pages (login / signup).
+// When a visitor arrives with a referral or UTM campaign query string, we
+// forward those parameters to the auth URL so the CRM can attribute the signup.
+// Works for both absolute (https://bispun.com/login) and relative (/login)
+// hrefs. Non-auth links are returned unchanged, and URLs with no relevant
+// params keep their original form so no existing link is broken.
 
 const PRESERVED_PARAMS = [
   "ref",
@@ -21,10 +21,30 @@ const PRESERVED_PARAMS = [
   "fbclid",
 ];
 
-function isAuthPath(href) {
+function fallbackOrigin() {
+  return typeof window !== "undefined" && window.location?.origin
+    ? window.location.origin
+    : "http://localhost";
+}
+
+// The pathname of an href, resolving relative URLs against the current origin.
+function hrefPath(href) {
+  if (typeof href !== "string") return null;
+  try {
+    return new URL(href, fallbackOrigin()).pathname;
+  } catch {
+    return null;
+  }
+}
+
+function isAuthHref(href) {
+  const path = hrefPath(href);
   return (
-    typeof href === "string" &&
-    (href.startsWith("/login") || href.startsWith("/signup"))
+    !!path &&
+    (path === "/login" ||
+      path === "/signup" ||
+      path.startsWith("/login/") ||
+      path.startsWith("/signup/"))
   );
 }
 
@@ -46,10 +66,11 @@ export function preservedQuery() {
   return query ? `?${query}` : "";
 }
 
-// Appends preserved referral/UTM params to an auth route. Any other href
-// (hash links, mailto:, external URLs, /privacy, etc.) is returned untouched,
-// as is an auth href that already carries its own query string.
+// Appends preserved referral/UTM params to an auth URL (login/signup), absolute
+// or relative. Any other href (hash links, mailto:, external URLs, /privacy,
+// etc.) is returned untouched. Uses the correct `?`/`&` separator.
 export function authHref(href) {
-  if (!isAuthPath(href) || href.includes("?")) return href;
-  return `${href}${preservedQuery()}`;
+  const query = preservedQuery();
+  if (!query || !isAuthHref(href)) return href;
+  return href.includes("?") ? `${href}&${query.slice(1)}` : `${href}${query}`;
 }

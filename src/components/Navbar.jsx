@@ -34,12 +34,6 @@ export default function Navbar() {
 
         <div className="hidden items-center gap-2 md:flex">
           <a
-            href={authHref(actions.signup.href)}
-            className="inline-flex h-9 items-center rounded-lg px-2 text-[13px] font-semibold text-brand-700 underline-offset-4 transition hover:text-brand-800 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
-          >
-            {actions.signup.label}
-          </a>
-          <a
             href={authHref(actions.login.href)}
             className="inline-flex h-9 items-center justify-center rounded-xl border border-slate-300 bg-white px-4 text-[13px] font-semibold text-slate-700 transition hover:border-brand-300 hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
           >
@@ -79,29 +73,20 @@ export default function Navbar() {
                 {n.label}
               </a>
             ))}
-            <div className="mt-2 flex flex-col gap-2 border-t border-slate-100 pt-3">
-              <div className="grid grid-cols-2 gap-2">
-                <a
-                  href={authHref(actions.login.href)}
-                  onClick={() => setOpen(false)}
-                  className="inline-flex items-center justify-center rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
-                >
-                  {actions.login.label}
-                </a>
-                <a
-                  href={homeLink(actions.demo.href)}
-                  onClick={() => setOpen(false)}
-                  className="inline-flex items-center justify-center rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
-                >
-                  {actions.demo.label}
-                </a>
-              </div>
+            <div className="mt-2 grid grid-cols-2 gap-2 border-t border-slate-100 pt-3">
               <a
-                href={authHref(actions.signup.href)}
+                href={authHref(actions.login.href)}
                 onClick={() => setOpen(false)}
-                className="inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold text-brand-700 underline-offset-4 hover:bg-brand-50 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+                className="inline-flex items-center justify-center rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
               >
-                New to Bispun? Create an account
+                {actions.login.label}
+              </a>
+              <a
+                href={homeLink(actions.demo.href)}
+                onClick={() => setOpen(false)}
+                className="inline-flex items-center justify-center rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+              >
+                {actions.demo.label}
               </a>
             </div>
           </div>

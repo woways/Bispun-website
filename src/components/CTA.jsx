@@ -1,5 +1,4 @@
 import { site } from "../data/site";
-import { authHref } from "../lib/url";
 import Icon from "./Icon";
 
 export default function CTA() {
@@ -24,14 +23,8 @@ export default function CTA() {
               >
                 {actions.demo.label}<Icon name="ArrowRight" size={16} aria-hidden="true" />
               </a>
-              <a
-                href={authHref(actions.signup.href)}
-                className="inline-flex w-full items-center justify-center rounded-xl border border-white/30 bg-white/5 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 sm:w-auto"
-              >
-                {actions.signup.label}
-              </a>
             </div>
-            <p className="mt-4 text-[11px] text-slate-500">Choose a plan or book a guided demo to see how Bispun fits your workflow.</p>
+            <p className="mt-4 text-[11px] text-slate-500">Book a guided demo to see how Bispun fits your workflow.</p>
           </div>
         </div>
       </div>
