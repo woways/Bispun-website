@@ -336,46 +336,46 @@ export default function Hero() {
         }
 
         .metric-total-leads {
-          left: 19.9%;
-          top: 27.3%;
+          left: 18.6%;
+          top: 34.0%;
         }
 
         .metric-qualified {
-          left: 39.7%;
-          top: 27.3%;
+          left: 38.8%;
+          top: 34.0%;
         }
 
         .metric-new-leads {
-          left: 59.6%;
-          top: 27.3%;
+          left: 59.0%;
+          top: 34.0%;
         }
 
         .metric-admissions {
-          left: 79.5%;
-          top: 27.3%;
+          left: 79.2%;
+          top: 34.0%;
         }
 
         .metric-potential-revenue {
-          left: 19.9%;
-          top: 47.1%;
+          left: 18.6%;
+          top: 58.4%;
           min-width: 13%;
         }
 
         .metric-received-revenue {
-          left: 39.7%;
-          top: 47.1%;
+          left: 38.8%;
+          top: 58.4%;
           min-width: 13%;
         }
 
         .metric-pending-revenue {
-          left: 59.6%;
-          top: 47.1%;
+          left: 59.0%;
+          top: 58.4%;
           min-width: 13%;
         }
 
         .metric-current-profit {
-          left: 79.5%;
-          top: 47.1%;
+          left: 79.2%;
+          top: 58.4%;
           min-width: 13%;
         }
 

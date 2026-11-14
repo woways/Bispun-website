@@ -11,7 +11,7 @@ export default function Mockup({ src, alt = "", label = "Product preview", class
       </div>
 
       {src ? (
-        <img src={src} alt={alt} className="block aspect-video w-full object-cover object-top" loading="lazy" />
+        <img src={src} alt={alt} className="block w-full h-auto" loading="lazy" />
       ) : (
         <div className="aspect-[16/10] w-full bg-[#f7f8fb] p-4">
           <div className="flex h-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
