@@ -184,7 +184,7 @@ function ProductPreview() {
                 loading="eager"
               />
 
-              <div className="pointer-events-none absolute inset-0">
+              <div className="pointer-events-none absolute inset-0" aria-hidden="true">
                 <div className="metric-cover metric-total-leads">
                   <AnimatedMetric end={48} className="metric-value" />
                 </div>
@@ -336,46 +336,46 @@ export default function Hero() {
         }
 
         .metric-total-leads {
-          left: 17.1%;
-          top: 25.0%;
+          left: 19.9%;
+          top: 27.3%;
         }
 
         .metric-qualified {
-          left: 38.0%;
-          top: 25.0%;
+          left: 39.7%;
+          top: 27.3%;
         }
 
         .metric-new-leads {
-          left: 58.8%;
-          top: 25.0%;
+          left: 59.6%;
+          top: 27.3%;
         }
 
         .metric-admissions {
           left: 79.5%;
-          top: 25.0%;
+          top: 27.3%;
         }
 
         .metric-potential-revenue {
-          left: 17.1%;
-          top: 41.1%;
+          left: 19.9%;
+          top: 47.1%;
           min-width: 13%;
         }
 
         .metric-received-revenue {
-          left: 38.0%;
-          top: 41.1%;
+          left: 39.7%;
+          top: 47.1%;
           min-width: 13%;
         }
 
         .metric-pending-revenue {
-          left: 58.8%;
-          top: 41.1%;
+          left: 59.6%;
+          top: 47.1%;
           min-width: 13%;
         }
 
         .metric-current-profit {
           left: 79.5%;
-          top: 41.1%;
+          top: 47.1%;
           min-width: 13%;
         }
 
