@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import Lottie from "lottie-react";
 import { site } from "../data/site";
 import Icon from "./Icon";
-import laptopAnimation from "../assets/Laptop.json";
 
 function useCountUp(end, duration = 6500, step = 1) {
   const [value, setValue] = useState(0);
@@ -134,32 +132,9 @@ function OrbitBubble({ className, symbol, label }) {
 }
 
 function ProductPreview() {
-  const lottieRef = useRef(null);
-
-  useEffect(() => {
-    if (lottieRef.current?.setSpeed) {
-      lottieRef.current.setSpeed(0.38);
-    }
-  }, []);
-
   return (
     <div className="hero-laptop-wrap relative mx-auto w-full max-w-[820px] lg:mx-0">
       <div className="hero-laptop-motion relative h-full w-full">
-        <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center">
-          <Lottie
-            lottieRef={lottieRef}
-            animationData={laptopAnimation}
-            loop
-            autoplay
-            className="hero-lottie h-auto w-[108%] max-w-none opacity-90"
-            rendererSettings={{
-              preserveAspectRatio: "xMidYMid meet",
-              clearCanvas: true,
-            }}
-            aria-hidden="true"
-          />
-        </div>
-
         <div className="hero-screen relative z-10 mx-auto">
           <div className="absolute -inset-3 rounded-[28px] bg-brand-100/25 blur-2xl" />
 
@@ -248,37 +223,6 @@ function ProductPreview() {
             </div>
           </div>
         </div>
-
-        <div className="hero-orbit-ring pointer-events-none absolute left-1/2 top-[51%] z-[1] hidden h-[72%] w-[99%] -translate-x-1/2 -translate-y-1/2 rounded-[50%] border border-dashed border-brand-200/55 lg:block" />
-        <div className="hero-orbit-ring-alt pointer-events-none absolute left-1/2 top-[51%] z-[1] hidden h-[61%] w-[91%] -translate-x-1/2 -translate-y-1/2 rounded-[50%] border border-brand-100/45 lg:block" />
-
-        <OrbitBubble
-          className="hero-bubble-message left-[18%] -top-[8%] hidden lg:flex"
-          symbol="message"
-          label="New enquiry"
-        />
-
-        <OrbitBubble
-          className="hero-bubble-calendar right-[18%] -top-[5%] hidden md:flex"
-          symbol="calendar"
-          label="Demo scheduled"
-        />
-
-        <OrbitBubble
-          className="hero-bubble-send -left-[7%] top-[43%] hidden lg:flex"
-          symbol="send"
-          label="Follow-up sent"
-        />
-
-        <OrbitBubble
-          className="hero-bubble-shield -right-[7%] top-[62%] hidden lg:flex"
-          symbol="shield"
-          label="Secure workspace"
-        />
-
-        <div className="hero-spark hero-spark-1 pointer-events-none absolute left-[27%] top-[15%] z-20 hidden h-2.5 w-2.5 rounded-full bg-brand-400/80 sm:block" />
-        <div className="hero-spark hero-spark-2 pointer-events-none absolute right-[27%] top-[14%] z-20 hidden h-2 w-2 rounded-full bg-brand-300/80 sm:block" />
-        <div className="hero-spark hero-spark-3 pointer-events-none absolute bottom-[7%] left-[50%] z-20 hidden h-2 w-2 rounded-full bg-brand-500/70 lg:block" />
       </div>
     </div>
   );
@@ -291,7 +235,7 @@ export default function Hero() {
     <section id="top" className="relative overflow-hidden bg-white">
       <style>{`
         .hero-laptop-wrap {
-          min-height: 470px;
+          min-height: 0;
         }
 
         .hero-laptop-motion {
@@ -302,7 +246,7 @@ export default function Hero() {
 
         .hero-screen {
           width: min(88%, 690px);
-          transform: translateY(74px);
+          transform: translateY(0);
           animation: hero-screen-enter 1100ms cubic-bezier(.2,.75,.25,1) both;
         }
 
@@ -424,7 +368,7 @@ export default function Hero() {
 
           to {
             opacity: 1;
-            transform: translateY(74px) scale(1);
+            transform: translateY(0) scale(1);
           }
         }
 
@@ -494,13 +438,12 @@ export default function Hero() {
 
         @media (max-width: 1279px) and (min-width: 1024px) {
           .hero-laptop-wrap {
-            min-height: 420px;
             width: 102%;
           }
 
           .hero-screen {
             width: 92%;
-            transform: translateY(62px);
+            transform: translateY(0);
           }
 
           @keyframes hero-screen-enter {
@@ -511,19 +454,19 @@ export default function Hero() {
 
             to {
               opacity: 1;
-              transform: translateY(62px) scale(1);
+              transform: translateY(0) scale(1);
             }
           }
         }
 
         @media (max-width: 1023px) {
           .hero-laptop-wrap {
-            min-height: 410px;
+            min-height: 0;
           }
 
           .hero-screen {
             width: min(94%, 680px);
-            transform: translateY(55px);
+            transform: translateY(0);
           }
 
           .hero-lottie {
@@ -539,19 +482,19 @@ export default function Hero() {
 
             to {
               opacity: 1;
-              transform: translateY(55px) scale(1);
+              transform: translateY(0) scale(1);
             }
           }
         }
 
         @media (max-width: 639px) {
           .hero-laptop-wrap {
-            min-height: 300px;
+            min-height: 0;
           }
 
           .hero-screen {
             width: 96%;
-            transform: translateY(36px);
+            transform: translateY(0);
           }
 
           .hero-lottie {
@@ -571,7 +514,7 @@ export default function Hero() {
 
             to {
               opacity: 1;
-              transform: translateY(36px) scale(1);
+              transform: translateY(0) scale(1);
             }
           }
         }
