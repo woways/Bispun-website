@@ -272,7 +272,7 @@ export default function Hero() {
         }
 
         .hero-screen {
-          width: min(88%, 690px);
+          width: min(92%, 720px);
           transform: translateY(0);
           animation: hero-screen-enter 1100ms cubic-bezier(.2,.75,.25,1) both;
         }
@@ -441,7 +441,7 @@ export default function Hero() {
           }
 
           .hero-product-position {
-            padding-top: 6.5rem;
+            padding-top: 14rem;
           }
 
           .hero-laptop-wrap {
