@@ -123,8 +123,7 @@ function OrbitBubble({ className, symbol, label }) {
   return (
     <div
       className={`hero-orbit-bubble pointer-events-none absolute z-20 flex h-14 w-14 items-center justify-center text-brand-500/70 ${className}`}
-      aria-label={label}
-      title={label}
+      aria-hidden="true"
     >
       <OrbitSymbol type={symbol} />
     </div>
@@ -223,6 +222,34 @@ function ProductPreview() {
             </div>
           </div>
         </div>
+
+        <OrbitBubble
+          className="hero-bubble-message left-[18%] -top-[8%] hidden lg:flex"
+          symbol="message"
+          label="New enquiry"
+        />
+
+        <OrbitBubble
+          className="hero-bubble-calendar right-[18%] -top-[5%] hidden md:flex"
+          symbol="calendar"
+          label="Demo scheduled"
+        />
+
+        <OrbitBubble
+          className="hero-bubble-send -left-[7%] top-[43%] hidden lg:flex"
+          symbol="send"
+          label="Follow-up sent"
+        />
+
+        <OrbitBubble
+          className="hero-bubble-shield -right-[7%] top-[62%] hidden lg:flex"
+          symbol="shield"
+          label="Secure workspace"
+        />
+
+        <div className="hero-spark hero-spark-1 pointer-events-none absolute left-[27%] top-[15%] z-20 hidden h-2.5 w-2.5 rounded-full bg-brand-400/80 sm:block" />
+        <div className="hero-spark hero-spark-2 pointer-events-none absolute right-[27%] top-[14%] z-20 hidden h-2 w-2 rounded-full bg-brand-300/80 sm:block" />
+        <div className="hero-spark hero-spark-3 pointer-events-none absolute bottom-[7%] left-[50%] z-20 hidden h-2 w-2 rounded-full bg-brand-500/70 lg:block" />
       </div>
     </div>
   );
