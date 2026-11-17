@@ -6,42 +6,68 @@ function useCountUp(end, duration = 6500, step = 1) {
   const [value, setValue] = useState(0);
   const started = useRef(false);
   const targetRef = useRef(null);
+  const rafRef = useRef(0);
+  const holdRef = useRef(0);
 
   useEffect(() => {
     const node = targetRef.current;
     if (!node) return undefined;
 
-    const reduceMotion = window.matchMedia?.(
-      "(prefers-reduced-motion: reduce)"
-    )?.matches;
+    const mq = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+
+    // Loop a small, finite number of times, then settle on the final value.
+    // A perpetual loop would be a WCAG 2.2.2 (auto-updating content) failure,
+    // so we keep it bounded and also honor prefers-reduced-motion.
+    const CYCLES = 3;
+    const HOLD_MS = 1400;
+
+    const settle = () => {
+      cancelAnimationFrame(rafRef.current);
+      clearTimeout(holdRef.current);
+      setValue(end);
+    };
 
     const start = () => {
       if (started.current) return;
       started.current = true;
 
-      if (reduceMotion) {
+      if (mq?.matches) {
         setValue(end);
         return;
       }
 
-      const startTime = performance.now();
+      let cycle = 0;
 
-      const tick = (now) => {
-        const progress = Math.min((now - startTime) / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
+      const runOnce = () => {
+        const startTime = performance.now();
 
-        const rawValue = end * eased;
-        const steppedValue =
-          step > 1 ? Math.round(rawValue / step) * step : Math.round(rawValue);
+        const tick = (now) => {
+          const progress = Math.min((now - startTime) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
 
-        setValue(Math.min(steppedValue, end));
+          const rawValue = end * eased;
+          const steppedValue =
+            step > 1 ? Math.round(rawValue / step) * step : Math.round(rawValue);
 
-        if (progress < 1) {
-          requestAnimationFrame(tick);
-        }
+          setValue(Math.min(steppedValue, end));
+
+          if (progress < 1) {
+            rafRef.current = requestAnimationFrame(tick);
+          } else {
+            cycle += 1;
+            if (cycle < CYCLES) {
+              holdRef.current = setTimeout(() => {
+                setValue(0);
+                runOnce();
+              }, HOLD_MS);
+            }
+          }
+        };
+
+        rafRef.current = requestAnimationFrame(tick);
       };
 
-      requestAnimationFrame(tick);
+      runOnce();
     };
 
     const observer = new IntersectionObserver(
@@ -56,7 +82,17 @@ function useCountUp(end, duration = 6500, step = 1) {
 
     observer.observe(node);
 
-    return () => observer.disconnect();
+    const onReduceChange = () => {
+      if (mq?.matches) settle();
+    };
+    mq?.addEventListener?.("change", onReduceChange);
+
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(rafRef.current);
+      clearTimeout(holdRef.current);
+      mq?.removeEventListener?.("change", onReduceChange);
+    };
   }, [end, duration, step]);
 
   return { value, targetRef };
@@ -272,7 +308,7 @@ export default function Hero() {
         }
 
         .hero-screen {
-          width: min(92%, 720px);
+          width: min(98%, 740px);
           transform: translateY(0);
           animation: hero-screen-enter 1100ms cubic-bezier(.2,.75,.25,1) both;
         }
@@ -441,7 +477,7 @@ export default function Hero() {
           }
 
           .hero-product-position {
-            padding-top: 14rem;
+            padding-top: 10.25rem;
           }
 
           .hero-laptop-wrap {
