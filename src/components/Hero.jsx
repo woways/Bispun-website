@@ -441,7 +441,7 @@ export default function Hero() {
           }
 
           .hero-product-position {
-            padding-top: clamp(1.5rem, 4vh, 3rem);
+            padding-top: 6.5rem;
           }
 
           .hero-laptop-wrap {
